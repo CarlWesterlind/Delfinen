@@ -48,6 +48,7 @@ public class UserInterFace {
                 case 2 ->;
                 case 3 ->;
                 case 8 -> startProgram();
+                default ->;
 
             }
         }
@@ -72,14 +73,21 @@ public class UserInterFace {
     }
     private int Trainer(){
         System.out.println("""
-           1. 
+           1. Competitive junior 
+           2. Competitive senior
+           3. Top 5 under every category  
            """);
 
         int choice = readInt("Enter one of the numbers");
         switch (choice){
+            case 1 ->;
+            case 2 ->;
+            case 3 ->;
+            default -> ;
 
-        }
-    };
+        };
+        //lägg till if
+    }
 
     private int readInt(String prompt){
         while (true){
