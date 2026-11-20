@@ -4,13 +4,13 @@ import java.time.LocalDate;
 
 public class Contingent{
 
-    private MemberType memberType;
+    private MemberStatus memberType;
     private AgeCategory ageCategory;
     private double amount;
     private boolean paid;
     private LocalDate dueDate;
 
-    public Contingent(MemberType memberType, AgeCategory ageCategory){
+    public Contingent(MemberStatus memberType, AgeCategory ageCategory){
         this.memberType = memberType;
         this.ageCategory = ageCategory;
         this.paid = false;
