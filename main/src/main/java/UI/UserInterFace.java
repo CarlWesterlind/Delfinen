@@ -1,9 +1,5 @@
 package UI;
 
-import domainmodel.CEO;
-import domainmodel.Cashier;
-import domainmodel.Trainer;
-
 import java.util.Scanner;
 
 public class UserInterFace {
@@ -34,58 +30,69 @@ public class UserInterFace {
 
 
     }
-    private int CEO(){
-        while(true){
+    private void CEO(){
+        boolean isRunning = true;
+        while (isRunning){
             System.out.println("""
                     1. New member
                     2. Members list
-                    3. 
-                    0. Back to main menu  
+                    3.
+                    0. Back to main menu
                     """);
-            int choice = readInt("Enter one of the following numbers");
+            int choice = readInt("Enter one of the numbers");
             switch (choice){
-                case 1 ->;
-                case 2 ->;
-                case 3 ->;
-                case 8 -> startProgram();
-                default ->;
+                case 1 ->
+                case 2 ->
+                case 3 ->
+                case 0 -> isRunning = false;
+                default -> System.out.println("Unknown choice" + choice);
 
             }
         }
     }
 
-    private int Cashier(){
+    private void Cashier(){
+        boolean isRunning = true;
+        while (isRunning){
         System.out.println("""
                     1. List of members
                     2. Has paid
-                    3. Missing payment""");
+                    3. Missing payment
+                    0. Back to main menu
+                    """);
 
         int choice = readInt("Enter one of the numbers");
-        switch (choice){
-                case 1 ->;
-                case 2 -> isPaid();
-                case 3 ->;
-                case 8 -> startProgram();
-                default ->;
-        };
+        switch (choice) {
+            case 1 ->
+            case 2 ->
+            case 3 ->
+            case 0 -> isRunning = false;
+            default -> System.out.println("Unknown choice" + choice);
+        }
+        }
         //lägg till if
 
     }
     private int Trainer(){
+        boolean isRunning = true;
+        while (isRunning){
         System.out.println("""
-           1. Competitive junior 
+           1. Competitive junior
            2. Competitive senior
-           3. Top 5 under every category  
+           3. Top 5 under every category
+           0. Back to main menu
            """);
 
         int choice = readInt("Enter one of the numbers");
-        switch (choice){
-            case 1 ->;
-            case 2 ->;
-            case 3 ->;
-            default -> ;
+        switch (choice) {
+            case 1 -> ;
+            case 2 -> ;
+            case 3 -> ;
+            case 0 -> isRunning = false;
+            default -> System.out.println("Unknown choice" + choice);
+        }
 
-        };
+        }
         //lägg till if
     }
 
