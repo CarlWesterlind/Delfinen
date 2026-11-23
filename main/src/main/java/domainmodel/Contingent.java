@@ -8,15 +8,14 @@ public class Contingent{
 
     private Member member;
     private double amount;
-    private boolean paid;
     private LocalDate dueDate;
+    private LocalDate paymentDate;
 
     public ArrayList<Contingent> contingents = new ArrayList<>();
 
     public Contingent(Member member){
         this.member = member;
         this.amount = calculateFee();
-        this.paid = false;
     }
 
     private double calculateFee(){
@@ -54,6 +53,14 @@ public class Contingent{
         return amount;
     }
 
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public boolean isPaid() {
+        return paymentDate != null;
+    }
+
 
     public void showContingents() {
 
@@ -77,4 +84,10 @@ public class Contingent{
 
         return total;
     }
+
+    public void registerPayment() {
+        this.paymentDate = LocalDate.now();
+    }
+
+
 }

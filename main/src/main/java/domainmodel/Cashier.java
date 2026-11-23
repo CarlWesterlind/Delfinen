@@ -11,4 +11,23 @@ public class Cashier {
         contingents.add(new Contingent(member));
     }
 
+    public void showPaymentDates() {
+
+        for (Contingent fee : contingents) {
+
+            Member member = fee.getMember();
+
+            if (fee.isPaid()) {
+                System.out.println(
+                        member.getName() +
+                                " | Paid on: " + fee.getPaymentDate()
+                );
+            } else {
+                System.out.println(
+                        member.getName() + " | Not paid"
+                );
+            }
+        }
+    }
+
 }
