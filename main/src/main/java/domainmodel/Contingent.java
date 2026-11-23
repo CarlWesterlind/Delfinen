@@ -1,25 +1,42 @@
 package domainmodel;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 
 public class Contingent{
 
-    private MemberStatus memberType;
-    private AgeCategory ageCategory;
+    private Member member;
     private double amount;
     private boolean paid;
     private LocalDate dueDate;
 
-    public Contingent(MemberStatus memberType, AgeCategory ageCategory){
-        this.memberType = memberType;
-        this.ageCategory = ageCategory;
-        this.paid = false;
+    public ArrayList<Contingent> contingents = new ArrayList<>();
 
+    public Contingent(Member member){
+        this.member = member;
         this.amount = calculateFee();
+        this.paid = false;
     }
 
     private double calculateFee(){
-        if (memberType == memberType.PASSIVE) {
+
+        int age = Period.between(
+                member.getBirthDate(),
+                LocalDate.now()
+        ).getYears();
+
+        AgeCategory ageCategory;
+
+        if (age < 18) {
+            ageCategory = AgeCategory.JUNIOR;
+        } else if (age > 60) {
+            ageCategory = AgeCategory.SENIOR_60_PLUS;
+        } else {
+            ageCategory = AgeCategory.SENIOR;
+        }
+
+        if (member.getMemberStatus() == MemberStatus.PASSIVE) {
             return 500;
         }
         return switch (ageCategory) {
@@ -29,18 +46,25 @@ public class Contingent{
         };
     }
 
-    public boolean isPaid(){
-        return paid;
+    public Member getMember() {
+        return member;
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return amount;
     }
 
-    public void registerPayment(){
-        paid = true;
+
+    public void showContingents() {
+
+        for (Contingent fee : contingents) {
+            Member member = fee.getMember();
+
+            System.out.println(
+                    "ID: " + member.getId() +
+                            " | Name: " + member.getName() +
+                            " | Annual fee: " + fee.getAmount() + " kr."
+            );
+        }
     }
-
-
-
 }
