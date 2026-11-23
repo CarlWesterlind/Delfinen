@@ -29,7 +29,7 @@ public class Contingent{
         };
     }
 
-    public boolean idPaid(){
+    public boolean isPaid(){
         return paid;
     }
 
