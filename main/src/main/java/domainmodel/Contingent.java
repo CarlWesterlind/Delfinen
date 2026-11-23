@@ -1,5 +1,8 @@
 package domainmodel;
 
+import domainmodel.Enum.AgeCategory;
+import domainmodel.Enum.MemberStatus;
+
 import java.time.LocalDate;
 
 public class Contingent{

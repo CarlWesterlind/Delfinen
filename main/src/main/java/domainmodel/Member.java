@@ -1,8 +1,9 @@
 package domainmodel;
 
 
+import domainmodel.Enum.MemberStatus;
+
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Member {
     private int Id;

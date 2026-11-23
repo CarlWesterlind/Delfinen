@@ -1,13 +1,15 @@
 package UI;
 
 import domainmodel.CEO;
+import domainmodel.CompetitiveSwimmer;
+import domainmodel.Enum.Discipline;
 import domainmodel.Member;
-import domainmodel.MemberStatus;
 
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterFace {
@@ -45,14 +47,14 @@ public class UserInterFace {
             System.out.println("""
                     1. Add New member
                     2. Members list
-                    3.
+                    3. Competitive swimmer
                     0. Back to main menu
                     """);
             int choice = readInt();
             switch (choice){
                 case 1 ->addMemeber();
                 case 2 ->getMemebers();
-             //   case 3 ->
+                case 3 -> addCompetitiveSwimmer();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
 
@@ -139,6 +141,19 @@ public class UserInterFace {
 
          System.out.println(member.getName() + " has been added as a member.");
      }
+     private void addCompetitiveSwimmer(){
+         System.out.println("Name: ");
+         String name = scanner.nextLine().trim();
+         LocalDate birthDate = readDate("Birthdate (dd-MM-yyyy): ");
+         ArrayList<Discipline> disciplines = readDiscipline();
+         try {
+             CompetitiveSwimmer swimmer = ceo.addCompetitiveSwimmer(name, birthDate, disciplines );
+             System.out.println(swimmer.getName() + " has been added as a competitive swimmer. ");
+
+         }catch (IllegalArgumentException e){
+             System.out.println(e.getMessage());
+         }
+     }
 
      private void getMemebers(){
         if(ceo.getMembers().isEmpty()){
@@ -150,6 +165,29 @@ public class UserInterFace {
 
             System.out.println(member);
         }
+     }
+     private ArrayList<Discipline> readDiscipline (){
+        ArrayList<Discipline> disciplines = new ArrayList<>();
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("""
+                    1. Butterfly
+                    2. Freestyle
+                    3. Backstroke
+                    4. Breaststroke
+                    0. Back to menu
+                    """);
+            int choice = readInt();
+            switch (choice){
+                case 1 -> disciplines.add(Discipline.BUTTERFLY);
+                case 2 -> disciplines.add(Discipline.FREESTYLE);
+                case 3 -> disciplines.add(Discipline.BACKSTROKE);
+                case 4 -> disciplines.add(Discipline.BREASTSTROKE);
+                case 0 -> isRunning = false;
+                default -> System.out.println("Unknown choice" + choice);
+            }
+        }
+        return disciplines;
      }
 
 }
