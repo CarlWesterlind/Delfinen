@@ -1,13 +1,18 @@
 package UI;
 
 import domainmodel.CEO;
-import domainmodel.Cashier;
-import domainmodel.Trainer;
+import domainmodel.Member;
+import domainmodel.MemberStatus;
 
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class UserInterFace {
     Scanner scanner = new Scanner(System.in);
+    private CEO ceo = new CEO();
 
     public void startProgram() {
         boolean isRunning = true;
@@ -21,7 +26,7 @@ public class UserInterFace {
                     0. Stop\n""");
 
 
-            int choice = readInt("Enter one of the numbers");
+            int choice = readInt();
             switch (choice) {
                 case 1 -> CEO();
                 case 2 -> Cashier();
@@ -34,56 +39,75 @@ public class UserInterFace {
 
 
     }
-    private int CEO(){
-        while(true){
+    private void CEO(){
+        boolean isRunning = true;
+        while (isRunning){
             System.out.println("""
-                    1. New member
+                    1. Add New member
                     2. Members list
-                    3. 
-                    0. Back to main menu  
+                    3.
+                    0. Back to main menu
                     """);
-            int choice = readInt("Enter one of the following numbers");
+            int choice = readInt();
             switch (choice){
-                case 1 ->;
-                case 2 ->;
-                case 3 ->;
-                case 8 -> startProgram();
+                case 1 ->addMemeber();
+                case 2 ->getMemebers();
+             //   case 3 ->
+                case 0 -> isRunning = false;
+                default -> System.out.println("Unknown choice" + choice);
 
             }
         }
     }
 
-    private int Cashier(){
+    private void Cashier(){
+        boolean isRunning = true;
+        while (isRunning){
         System.out.println("""
                     1. List of members
                     2. Has paid
-                    3. Missing payment""");
+                    3. Missing payment
+                    0. Back to main menu
+                    """);
 
-        int choice = readInt("Enter one of the numbers");
-        switch (choice){
-                case 1 ->;
-                case 2 -> isPaid();
-                case 3 ->;
-                case 8 -> startProgram();
-                default ->;
-        };
+        int choice = readInt();
+        switch (choice) {
+         //   case 1 ->
+         //   case 2 ->
+         //   case 3 ->
+            case 0 -> isRunning = false;
+            default -> System.out.println("Unknown choice" + choice);
+        }
+        }
         //lägg till if
 
     }
-    private int Trainer(){
-        System.out.println("""
-           1. 
-           """);
+    private void Trainer() {
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("""
+                    1. Competitive junior
+                    2. Competitive senior
+                    3. Top 5 under every category
+                    0. Back to main menu
+                    """);
 
-        int choice = readInt("Enter one of the numbers");
-        switch (choice){
+            int choice = readInt();
+            switch (choice) {
+                //    case 1 -> ;
+                //    case 2 -> ;
+                //    case 3 -> ;
+                case 0 -> isRunning = false;
+                default -> System.out.println("Unknown choice" + choice);
+            }
 
         }
-    };
+        //lägg till if
+    }
 
-    private int readInt(String prompt){
+    private int readInt(){
         while (true){
-            System.out.println(prompt);
+            System.out.print("Enter one of the numbers : ");
             String input = scanner.nextLine().trim();
             try{
                 return Integer.parseInt(input);
@@ -93,5 +117,39 @@ public class UserInterFace {
         }
     }
 
+    private LocalDate readDate(String promt){
+        DateTimeFormatter f= DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        while (true){
+            System.out.println(promt);
+            String input=scanner.nextLine().trim();
+            try {
+                return LocalDate.parse(input,f);
+            }catch (DateTimeException e){
+                System.out.println("\"" + input + "\" is not  date! : dd-MM-yyyy");
+            }
+        }
+    }
+
+     private void addMemeber(){
+        System.out.println("Name: ");
+        String name=scanner.nextLine().trim();
+         LocalDate birthDate=readDate("Birthdate (dd-MM-yyyy): ");
+
+         Member member=ceo.addMember(name,birthDate);
+
+         System.out.println(member.getName() + " has been added as a member.");
+     }
+
+     private void getMemebers(){
+        if(ceo.getMembers().isEmpty()){
+            System.out.println("No Memebers");
+            return;
+        }
+        System.out.println("Members:");
+        for (Member member: ceo.getMembers()){
+
+            System.out.println(member);
+        }
+     }
 
 }
