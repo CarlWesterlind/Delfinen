@@ -67,4 +67,14 @@ public class Contingent{
             );
         }
     }
+
+    public double calculateTotalContingents() {
+        double total = 0;
+
+        for (Contingent fee : contingents) {
+            total += fee.getAmount();
+        }
+
+        return total;
+    }
 }
