@@ -1,5 +1,8 @@
 package domainmodel;
 
+import domainmodel.Enum.AgeCategory;
+import domainmodel.Enum.MemberStatus;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
