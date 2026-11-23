@@ -2,6 +2,8 @@
 package domainmodel;
 
 import datasource.FileHandler;
+import domainmodel.Enum.Discipline;
+import domainmodel.Enum.MemberStatus;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class CEO {
     }
 
     public Member addMember(String name, LocalDate birthDate){
-        Member member=new Member(nextId,name,birthDate,MemberStatus.PENDING);
+        Member member=new Member(nextId,name,birthDate, MemberStatus.PENDING);
         nextId++;
         members.add(member);
         fileHandler.Savememebers(members);
@@ -35,4 +37,12 @@ public class CEO {
     public ArrayList<Member>getMembers(){
         return  members;
     }
+
+    public CompetitiveSwimmer addCompetitiveSwimmer(String name, LocalDate birthDate, ArrayList<Discipline> disciplines){
+        CompetitiveSwimmer member=new CompetitiveSwimmer(nextId,name,birthDate, MemberStatus.AKTIVE, disciplines);
+        nextId++;
+        members.add(member);
+        return member;
+    }
 }
+

@@ -1,7 +1,7 @@
 package datasource;
 
 import domainmodel.Member;
-import domainmodel.MemberStatus;
+import domainmodel.Enum.MemberStatus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
