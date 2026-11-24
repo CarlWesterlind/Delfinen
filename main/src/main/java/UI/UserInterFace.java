@@ -3,6 +3,7 @@ package UI;
 import domainmodel.CEO;
 import domainmodel.Member;
 import domainmodel.MemberStatus;
+import domainmodel.Trainer;
 
 
 import java.time.DateTimeException;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class UserInterFace {
     Scanner scanner = new Scanner(System.in);
     private CEO ceo = new CEO();
+    private Trainer trainer = new Trainer();
 
     public void startProgram() {
         boolean isRunning = true;
@@ -94,8 +96,8 @@ public class UserInterFace {
 
             int choice = readInt();
             switch (choice) {
-                //    case 1 -> ;
-                //    case 2 -> ;
+                case 1 -> trainer.showJuniorMembers(ceo.getMembers(), LocalDate.now());
+                case 2 -> trainer.showSeniorMembers(ceo.getMembers(), LocalDate.now());
                 //    case 3 -> ;
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
