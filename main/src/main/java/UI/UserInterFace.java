@@ -149,7 +149,7 @@ public class UserInterFace {
          ArrayList<Discipline> disciplines = readDiscipline();
          try {
              CompetitiveSwimmer swimmer = ceo.addCompetitiveSwimmer(name, birthDate, disciplines );
-             System.out.println(swimmer.getName() + " has been added as a competitive swimmer. ");
+             System.out.println(swimmer.getName() + " has been added as a competitive swimmer. \n");
 
          }catch (IllegalArgumentException e){
              System.out.println(e.getMessage());
@@ -158,7 +158,7 @@ public class UserInterFace {
 
      private void getMemebers(){
         if(ceo.getMembers().isEmpty()){
-            System.out.println("No Memebers");
+            System.out.println("No Memebers\n");
             return;
         }
         System.out.println("Members:");
