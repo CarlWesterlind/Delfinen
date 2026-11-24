@@ -97,8 +97,8 @@ public class UserInterFace {
 
             int choice = readInt();
             switch (choice) {
-                case 1 -> trainer.showJuniorMembers(ceo.getMembers(), LocalDate.now());
-                case 2 -> trainer.showSeniorMembers(ceo.getMembers(), LocalDate.now());
+                case 1 -> showJuniorMembers();
+                case 2 -> showSeniorMembers();
                 //    case 3 -> ;
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
@@ -106,6 +106,23 @@ public class UserInterFace {
 
         }
         //lägg till if
+    }
+    private void showJuniorMembers() {
+        ArrayList<Member> juniorMembers =
+                trainer.getJuniorMembers(ceo.getMembers(), LocalDate.now());
+
+        for (Member member : juniorMembers) {
+            System.out.println(member.getName());
+        }
+    }
+
+    private void showSeniorMembers() {
+        ArrayList<Member> seniorMembers =
+                trainer.getSeniorMembers(ceo.getMembers(), LocalDate.now());
+
+        for (Member member : seniorMembers) {
+            System.out.println(member.getName());
+        }
     }
 
     private int readInt(){
