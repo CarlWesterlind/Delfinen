@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Trainer {
     public void showJuniorMembers(ArrayList<Member> members, LocalDate today){
         for (Member member : members) {
-            if (member.isJunior(today)) {
+            if (member instanceof CompetitiveSwimmer && member.isJunior(today)) {
                 System.out.println(member.getName());
             }
         }
@@ -14,7 +14,7 @@ public class Trainer {
 
     public void showSeniorMembers(ArrayList<Member> members, LocalDate today) {
         for (Member member : members) {
-            if (!member.isJunior(today)) {
+            if (member instanceof CompetitiveSwimmer && !member.isJunior(today)) {
                 System.out.println(member.getName());
             }
         }

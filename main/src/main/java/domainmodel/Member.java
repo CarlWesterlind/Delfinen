@@ -2,6 +2,7 @@ package domainmodel;
 
 
 import domainmodel.Enum.MemberStatus;
+import domainmodel.Enum.AgeCategory;
 
 import java.time.LocalDate;
 import java.util.Date;
