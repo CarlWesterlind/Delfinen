@@ -4,11 +4,39 @@ import java.util.ArrayList;
 
 public class Cashier {
 
-    ArrayList<Contingent> contingents;
-
+    private ArrayList<Contingent> contingents = new ArrayList<>();
 
     public void addContingent(Member member) {
-        contingents.add(new Contingent(member));
+        try {
+            contingents.add(new Contingent(member));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void showContingents() {
+
+        for (Contingent fee : contingents) {
+
+            Member member = fee.getMember();
+
+            System.out.println(
+                    "ID: " + member.getId() +
+                            " | Name: " + member.getName() +
+                            " | Annual fee: " + fee.getAmount() + " kr."
+            );
+        }
+    }
+
+    public double calculateTotalContingents() {
+
+        double total = 0;
+
+        for (Contingent fee : contingents) {
+            total += fee.getAmount();
+        }
+
+        return total;
     }
 
     public void showPaymentDates() {
@@ -29,5 +57,4 @@ public class Cashier {
             }
         }
     }
-
 }

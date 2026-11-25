@@ -5,23 +5,45 @@ import domainmodel.Enum.MemberStatus;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 
-public class Contingent{
+public class Contingent {
 
     private Member member;
     private double amount;
     private LocalDate dueDate;
     private LocalDate paymentDate;
 
-    public ArrayList<Contingent> contingents = new ArrayList<>();
+    public Contingent(Member member) {
 
-    public Contingent(Member member){
+        if (member == null) {
+            throw new IllegalArgumentException(
+                    "Member cannot be null"
+            );
+        }
+
+        if (member.getBirthDate() == null) {
+            throw new IllegalArgumentException(
+                    "Birth date is missing"
+            );
+        }
+
+        if (member.getBirthDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException(
+                    "Invalid birth date"
+            );
+        }
+
+        if (member.getMemberStatus() == null) {
+            throw new IllegalArgumentException(
+                    "Member status is missing"
+            );
+        }
+
         this.member = member;
         this.amount = calculateFee();
     }
 
-    private double calculateFee(){
+    private double calculateFee() {
 
         int age = Period.between(
                 member.getBirthDate(),
@@ -41,6 +63,7 @@ public class Contingent{
         if (member.getMemberStatus() == MemberStatus.PASSIVE) {
             return 500;
         }
+
         return switch (ageCategory) {
             case JUNIOR -> 1000;
             case SENIOR -> 1600;
@@ -64,33 +87,7 @@ public class Contingent{
         return paymentDate != null;
     }
 
-
-    public void showContingents() {
-
-        for (Contingent fee : contingents) {
-            Member member = fee.getMember();
-
-            System.out.println(
-                    "ID: " + member.getId() +
-                            " | Name: " + member.getName() +
-                            " | Annual fee: " + fee.getAmount() + " kr."
-            );
-        }
-    }
-
-    public double calculateTotalContingents() {
-        double total = 0;
-
-        for (Contingent fee : contingents) {
-            total += fee.getAmount();
-        }
-
-        return total;
-    }
-
     public void registerPayment() {
         this.paymentDate = LocalDate.now();
     }
-
-
 }
