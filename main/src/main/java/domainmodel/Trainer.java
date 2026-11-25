@@ -5,24 +5,24 @@ import java.util.ArrayList;
 
 public class Trainer {
 
-    public ArrayList<Member> getJuniorMembers(ArrayList<Member> members, LocalDate today) {
-        ArrayList<Member> juniorMembers = new ArrayList<>();
+    public ArrayList<CompetitiveSwimmer> getJuniorMembers(ArrayList<Member> members, LocalDate today) {
+        ArrayList<CompetitiveSwimmer> juniorMembers = new ArrayList<>();
 
         for (Member member : members) {
-            if (member instanceof CompetitiveSwimmer && member.isJunior(today)) {
-                juniorMembers.add(member);
+            if (member instanceof CompetitiveSwimmer swimmer && member.isJunior(today)) {
+                juniorMembers.add(swimmer);
             }
         }
 
         return juniorMembers;
     }
 
-    public ArrayList<Member> getSeniorMembers(ArrayList<Member> members, LocalDate today) {
-        ArrayList<Member> seniorMembers = new ArrayList<>();
+    public ArrayList<CompetitiveSwimmer> getSeniorMembers(ArrayList<Member> members, LocalDate today) {
+        ArrayList<CompetitiveSwimmer> seniorMembers = new ArrayList<>();
 
         for (Member member : members) {
-            if (member instanceof CompetitiveSwimmer && !member.isJunior(today)) {
-                seniorMembers.add(member);
+            if (member instanceof CompetitiveSwimmer swimmer && !member.isJunior(today)) {
+                seniorMembers.add(swimmer);
             }
         }
 
