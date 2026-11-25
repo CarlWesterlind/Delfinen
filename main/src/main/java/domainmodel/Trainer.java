@@ -28,4 +28,15 @@ public class Trainer {
 
         return seniorMembers;
     }
+
+    public CompetitiveSwimmer findCompetetiveSwimmer(ArrayList<Member> members, int id){
+        for(Member member : members){
+            if(member instanceof CompetitiveSwimmer swimmer && swimmer.getId() == id){
+                return swimmer;
+            }
+        }
+        return null;
+    }
+
+
 }

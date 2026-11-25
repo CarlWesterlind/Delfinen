@@ -5,6 +5,8 @@ import domainmodel.CompetitiveSwimmer;
 import domainmodel.Enum.Discipline;
 import domainmodel.Member;
 import domainmodel.Trainer;
+import domainmodel.SwimTimeFormat;
+import domainmodel.TrainingResult;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -56,6 +58,7 @@ public class UserInterFace {
                 case 1 ->addMemeber();
                 case 2 ->getMemebers();
                 case 3 -> addCompetitiveSwimmer();
+                case 4 -> registerTrainingTime();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
 
@@ -92,6 +95,7 @@ public class UserInterFace {
                     1. Competitive junior
                     2. Competitive senior
                     3. Top 5 under every category
+                    4. Register Training time
                     0. Back to main menu
                     """);
 
@@ -100,6 +104,7 @@ public class UserInterFace {
                 case 1 -> showJuniorMembers();
                 case 2 -> showSeniorMembers();
                 //    case 3 -> ;
+                case 4 -> registerTrainingTime();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
             }
@@ -219,5 +224,70 @@ public class UserInterFace {
         }
         return disciplines;
      }
+
+     private void registerTrainingTime(){
+         System.out.println("Swimmer's Member ID: ");
+         int id = readInt();
+         CompetitiveSwimmer swimmer = trainer.findCompetetiveSwimmer(ceo.getMembers(), id);
+         if(swimmer == null){
+             System.out.println("No competitive swimmer with ID " + id +"\"");
+             return;
+         }
+
+         Discipline discipline = readOneDiscipline();
+         int time = readTime();
+         LocalDate date = readDate("Date (dd-MM-yyyy): ");
+
+         try {
+             TrainingResult oldBest = swimmer.getBestTrainingResults(discipline);
+             boolean isNewBest = swimmer.registerTrainingTime(discipline, time, date);
+
+             if (isNewBest) {
+                 System.out.println("New best time for " + swimmer.getName() + ": " + SwimTimeFormat.format(time) + "\n");
+             } else {
+                 System.out.println("Not better than the current best time "
+                         + SwimTimeFormat.format(oldBest.getTime()) + " (" + oldBest.getDate() + "). The old time is kept.\n");
+             }
+         } catch (IllegalArgumentException e) {
+             System.out.println(e.getMessage() + "\n");
+         }
+     }
+
+     private Discipline readOneDiscipline(){
+             while (true){
+                 System.out.println("""
+                         Discipline: 
+                         1. Butterfly
+                         2. Freestyle
+                         3. Backstroke
+                         4. Breaststroke
+                         """);
+                 int choice = readInt();
+                 Discipline discipline = switch (choice){
+                     case 1 -> Discipline.BUTTERFLY;
+                     case 2 -> Discipline.FREESTYLE;
+                     case 3 -> Discipline.BACKSTROKE;
+                     case 4 -> Discipline.BREASTSTROKE;
+                     default -> null;
+                 };
+                 if(discipline != null){
+                     return discipline;
+                 }
+                 System.out.println("Unknown choice " + choice);
+             }
+         }
+
+         private int readTime(){
+        while (true){
+            System.out.println("Time (minutes:seconds.hundredths, e.g. 1:05.32: ");
+            String input = scanner.nextLine().trim();
+            try {
+                return SwimTimeFormat.parse(input);
+            } catch (IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
+        }
+     }
+
 
 }
