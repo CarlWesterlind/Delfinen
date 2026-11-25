@@ -108,21 +108,23 @@ public class UserInterFace {
         //lägg till if
     }
     private void showJuniorMembers() {
-        ArrayList<Member> juniorMembers =
-                trainer.getJuniorMembers(ceo.getMembers(), LocalDate.now());
-
-        for (Member member : juniorMembers) {
-            System.out.println(member.getName());
+        System.out.println("Junior Team: ");
+        showTeam(trainer.getJuniorMembers(ceo.getMembers(), LocalDate.now()));
         }
-    }
+
 
     private void showSeniorMembers() {
-        ArrayList<Member> seniorMembers =
-                trainer.getSeniorMembers(ceo.getMembers(), LocalDate.now());
-
-        for (Member member : seniorMembers) {
-            System.out.println(member.getName());
+        System.out.println("Senior Team: ");
+        showTeam(trainer.getSeniorMembers(ceo.getMembers(), LocalDate.now()));
         }
+
+        private void showTeam(ArrayList<CompetitiveSwimmer> team){
+        if(team.isEmpty()){
+            System.out.println("There are no swimmers on this team.\n");
+            return;
+        }
+
+
     }
 
     private int readInt(){
