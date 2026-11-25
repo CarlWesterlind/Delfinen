@@ -4,20 +4,28 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Trainer {
-    public void showJuniorMembers(ArrayList<Member> members, LocalDate today){
+
+    public ArrayList<Member> getJuniorMembers(ArrayList<Member> members, LocalDate today) {
+        ArrayList<Member> juniorMembers = new ArrayList<>();
+
         for (Member member : members) {
             if (member instanceof CompetitiveSwimmer && member.isJunior(today)) {
-                System.out.println(member.getName());
+                juniorMembers.add(member);
             }
         }
+
+        return juniorMembers;
     }
 
-    public void showSeniorMembers(ArrayList<Member> members, LocalDate today) {
+    public ArrayList<Member> getSeniorMembers(ArrayList<Member> members, LocalDate today) {
+        ArrayList<Member> seniorMembers = new ArrayList<>();
+
         for (Member member : members) {
             if (member instanceof CompetitiveSwimmer && !member.isJunior(today)) {
-                System.out.println(member.getName());
+                seniorMembers.add(member);
             }
         }
-    }
 
+        return seniorMembers;
+    }
 }
