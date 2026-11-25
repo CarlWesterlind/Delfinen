@@ -123,8 +123,18 @@ public class UserInterFace {
             System.out.println("There are no swimmers on this team.\n");
             return;
         }
+        for(CompetitiveSwimmer swimmer : team){
+            System.out.println(swimmer.getName() + " --- Disciplines: " + formatDisciplines(swimmer.getDisciplines()));
+        }
+            System.out.println();
+    }
 
-
+    private String formatDisciplines(ArrayList<Discipline> disciplines){
+        ArrayList<String> names = new ArrayList<>();
+        for (Discipline discipline : disciplines){
+            names.add(discipline.toString().toLowerCase());
+        }
+        return String.join(", ", names);
     }
 
     private int readInt(){
