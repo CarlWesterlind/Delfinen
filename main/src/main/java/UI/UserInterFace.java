@@ -3,6 +3,7 @@ package UI;
 import domainmodel.CEO;
 import domainmodel.CompetitiveSwimmer;
 import domainmodel.Enum.Discipline;
+import domainmodel.Enum.MemberStatus;
 import domainmodel.Member;
 import domainmodel.Trainer;
 import domainmodel.SwimTimeFormat;
@@ -48,20 +49,42 @@ public class UserInterFace {
         boolean isRunning = true;
         while (isRunning){
             System.out.println("""
-                    1. Add New member
-                    2. Members list
-                    3. Competitive swimmer
-                    0. Back to main menu
+                    1. Add New member.
+                    2. Members list.
+                    3. Add competitive swimmer.
+                    4. Make existing member a competitive swimmer.
+                    5. Remove a competitive swimmer.
+                    6. Change Status.
+                    0. Back to main menu.
                     """);
             int choice = readInt();
             switch (choice){
-                case 1 ->addMemeber();
-                case 2 ->getMemebers();
+                case 1 -> addMemeber();
+                case 2 -> getMemebers();
                 case 3 -> addCompetitiveSwimmer();
+                case 4 -> makeCompetitiveSwimmer();
+                case 5 -> removeCompetitiveSwimmer();
+                case 6 -> changeStatus();
                 case 4 -> registerTrainingTime();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
 
+            }
+        }
+    }
+    private MemberStatus readStatus(){
+        while (true){
+            System.out.println("""
+                    1. Active
+                    2. Passive
+                    3. Pending
+                    """);
+            int choice = readInt();
+            switch (choice){
+                case 1 -> {return MemberStatus.AKTIVE;}
+                case 2 -> {return MemberStatus.PASSIVE;}
+                case 3 -> {return MemberStatus.PENDING;}
+                default -> System.out.println("Unknown choice " + choice);
             }
         }
     }
@@ -143,10 +166,13 @@ public class UserInterFace {
     }
 
     private int readInt(){
+           return readInt("Enter one of the numbers : ");
+    }
+    private int readInt(String prompt){
         while (true){
-            System.out.print("Enter one of the numbers : ");
+            System.out.print(prompt);
             String input = scanner.nextLine().trim();
-            try{
+            try {
                 return Integer.parseInt(input);
             }catch (NumberFormatException e){
                 System.out.println("\"" + input + "\" is not a number.");
@@ -154,10 +180,11 @@ public class UserInterFace {
         }
     }
 
+
     private LocalDate readDate(String promt){
         DateTimeFormatter f= DateTimeFormatter.ofPattern("dd-MM-yyyy");
         while (true){
-            System.out.println(promt);
+            System.out.print(promt);
             String input=scanner.nextLine().trim();
             try {
                 return LocalDate.parse(input,f);
@@ -168,16 +195,17 @@ public class UserInterFace {
     }
 
      private void addMemeber(){
-        System.out.println("Name: ");
+        System.out.print("Name: ");
         String name=scanner.nextLine().trim();
          LocalDate birthDate=readDate("Birthdate (dd-MM-yyyy): ");
 
          Member member=ceo.addMember(name,birthDate);
 
          System.out.println(member.getName() + " has been added as a member.");
+
      }
      private void addCompetitiveSwimmer(){
-         System.out.println("Name: ");
+         System.out.print("Name: ");
          String name = scanner.nextLine().trim();
          LocalDate birthDate = readDate("Birthdate (dd-MM-yyyy): ");
          ArrayList<Discipline> disciplines = readDiscipline();
@@ -185,6 +213,18 @@ public class UserInterFace {
              CompetitiveSwimmer swimmer = ceo.addCompetitiveSwimmer(name, birthDate, disciplines );
              System.out.println(swimmer.getName() + " has been added as a competitive swimmer. \n");
 
+         }catch (IllegalArgumentException e){
+             System.out.println(e.getMessage());
+         }
+     }
+     private void makeCompetitiveSwimmer(){
+         int id = readInt("Member ID number: ");
+         try {
+             Member member = ceo.findMember(id);
+             System.out.println("Selected: " + member.getName());
+             ArrayList<Discipline> disciplines = readDiscipline();
+             ceo.makeCompetitiveSwimmer(id, disciplines);
+             System.out.println("Member " + id + " is now a competitive swimmer.\n");
          }catch (IllegalArgumentException e){
              System.out.println(e.getMessage());
          }
@@ -223,6 +263,31 @@ public class UserInterFace {
             }
         }
         return disciplines;
+     }
+     private void removeCompetitiveSwimmer(){
+        int id = readInt("Member ID number: ");
+        try {
+            Member member = ceo.findMember(id);
+            System.out.println("Selected: " + member.getName());
+            MemberStatus status = readStatus();
+            ceo.removeCompetitiveSwimmer(id, status);
+            System.out.println("Member " + id + " is no longer a competitive swimmer. \n");
+
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+     }
+     private void changeStatus(){
+        int id = readInt("Member ID number: " );
+        try {
+            Member member = ceo.findMember(id);
+            System.out.println("Selected: " + member.getName());
+            MemberStatus status = readStatus();
+            ceo.changeStatus(id, status);
+            System.out.println("Member " + id + " is now " + status + ". \n");
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
      }
 
      private void registerTrainingTime(){

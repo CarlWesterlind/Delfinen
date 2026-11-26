@@ -27,6 +27,9 @@ public class Member {
 
     public int getId(){return Id;}
     public  String getName(){return Name;}
+    public void setStatus(MemberStatus status){
+        this.memberStatus = status;
+    }
     public LocalDate getBirthDate() { return birthDate; }
     public MemberStatus getMemberStatus() { return memberStatus; }
     public AgeCategory getAgeCategory(LocalDate today) {
