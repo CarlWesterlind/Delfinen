@@ -65,7 +65,7 @@ public class UserInterFace {
                 case 4 -> makeCompetitiveSwimmer();
                 case 5 -> removeCompetitiveSwimmer();
                 case 6 -> changeStatus();
-                case 4 -> registerTrainingTime();
+                case 7 -> registerTrainingTime();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
 
@@ -119,6 +119,7 @@ public class UserInterFace {
                     2. Competitive senior
                     3. Top 5 under every category
                     4. Register Training time
+                    5. Register Competition time
                     0. Back to main menu
                     """);
 
@@ -128,6 +129,7 @@ public class UserInterFace {
                 case 2 -> showSeniorMembers();
                 //    case 3 -> ;
                 case 4 -> registerTrainingTime();
+                case 5 -> registerCompetitionTime();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Unknown choice" + choice);
             }
@@ -291,11 +293,8 @@ public class UserInterFace {
      }
 
      private void registerTrainingTime(){
-         System.out.println("Swimmer's Member ID: ");
-         int id = readInt();
-         CompetitiveSwimmer swimmer = trainer.findCompetetiveSwimmer(ceo.getMembers(), id);
+         CompetitiveSwimmer swimmer = chooseCompetitiveSwimmer();
          if(swimmer == null){
-             System.out.println("No competitive swimmer with ID " + id +"\"");
              return;
          }
 
@@ -354,5 +353,101 @@ public class UserInterFace {
         }
      }
 
+    private CompetitiveSwimmer chooseCompetitiveSwimmer() {
+        System.out.println("Enter the swimmer's ID or name:");
+        String input = scanner.nextLine().trim();
+
+        if (input.isEmpty()) {
+            System.out.println("You didn't enter anything.\n");
+            return null;
+        }
+
+        try {
+            int id = Integer.parseInt(input);
+            CompetitiveSwimmer swimmer = trainer.findCompetetiveSwimmer(ceo.getMembers(), id);
+            if (swimmer == null) {
+                System.out.println("No competitive swimmer with ID " + id + "\n");
+            }
+            return swimmer;
+        } catch (NumberFormatException e) {
+
+        }
+
+        ArrayList<CompetitiveSwimmer> matches = trainer.findCompetitiveSwimmersByName(ceo.getMembers(), input);
+
+        if (matches.isEmpty()) {
+            System.out.println("No competitive swimmer found with the name \"" + input + "\"\n");
+            return null;
+        }
+
+        if (matches.size() == 1) {
+            return matches.get(0);
+        }
+
+        System.out.println("More than one swimmer matches:");
+        for (CompetitiveSwimmer swimmer : matches) {
+            System.out.println("ID: " + swimmer.getId() + " | Name: " + swimmer.getName());
+        }
+        System.out.println("Enter the ID of the swimmer:");
+        int id = readInt();
+
+        for (CompetitiveSwimmer swimmer : matches) {
+            if (swimmer.getId() == id) {
+                return swimmer;
+            }
+        }
+        System.out.println("That ID is not in the list.\n");
+        return null;
+    }
+
+     public void registerCompetitionTime(){
+        CompetitiveSwimmer swimmer= chooseCompetitiveSwimmer();{
+            if(swimmer == null){
+                return;
+            }
+
+            Discipline discipline = readOneDiscipline();
+            if(!swimmer.isActiveIn(discipline)){
+                System.out.println(swimmer.getName() + " is not active in " + discipline + "\n");
+                return;
+            }
+
+            String meetName = readMeetName();
+            LocalDate date = readDate("The date of meet (dd--MM--YYYY");
+            int placement = readPlacement();
+            int time = readTime();
+
+             try {
+                 swimmer.addCompetitionResult(meetName, date, discipline, placement, time);
+                 System.out.println("Result registered for " + swimmer.getName() + ": " + meetName
+                         + " | " + discipline + " | Place " + placement
+                         + " | " + SwimTimeFormat.format(time) + "\n");
+             } catch (IllegalArgumentException e) {
+                 System.out.println(e.getMessage() + "\n");
+             }
+         }
+     }
+
+     private String readMeetName(){
+        while(true){
+            System.out.println("The name of the meet:");
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()){
+                return input;
+            }
+            System.out.println("The meet must have a name");
+        }
+     }
+
+     private int readPlacement(){
+        while(true){
+            System.out.println("Placement (1, 2, 3...):");
+            int placement = readInt();
+            if(placement >= 1){
+                return placement;
+            }
+            System.out.println("The placement must be at least 1 or higher");
+        }
+     }
 
 }

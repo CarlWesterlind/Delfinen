@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class CompetitiveSwimmer extends Member {
     private ArrayList<Discipline> disciplines;
     private ArrayList<TrainingResult> bestTrainingResults = new ArrayList<>();
+    private ArrayList<CompetitionResult> competitionResults = new ArrayList<>();
 
     public CompetitiveSwimmer(int id, String name, LocalDate birthdate, MemberStatus memberstatus, ArrayList<Discipline> disciplines) {
         super(id, name, birthdate, memberstatus);
@@ -51,4 +52,29 @@ public class CompetitiveSwimmer extends Member {
         return true;
 
     }
+
+    public boolean isActiveIn(Discipline discipline){
+        return disciplines.contains(discipline);
+    }
+
+    public void addCompetitionResult(String meetName, LocalDate date, Discipline discipline, int placement, int time){
+        if(!isActiveIn(discipline)){
+            throw new IllegalArgumentException(getName() + " is not active in " + discipline);
+        }
+        if(meetName == null || meetName.isBlank()){
+            throw new IllegalArgumentException("The meet must have a name");
+        }
+        if(placement < 1){
+            throw new IllegalArgumentException("Place must be at least 1 or higher");
+        }
+        if(time<=0){
+            throw new IllegalArgumentException("Time must be greater than 0");
+        }
+        competitionResults.add(new CompetitionResult(meetName, date, discipline, placement, time));
+    }
+
+    public ArrayList<CompetitionResult> getCompetitionResults(){
+        return new ArrayList<>(competitionResults);
+    }
+
 }

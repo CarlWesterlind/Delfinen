@@ -38,5 +38,18 @@ public class Trainer {
         return null;
     }
 
+    public ArrayList<CompetitiveSwimmer> findCompetitiveSwimmersByName(ArrayList<Member> members, String search) {
+        ArrayList<CompetitiveSwimmer> matches = new ArrayList<>();
+        String searchLower = search.toLowerCase();
+
+        for (Member member : members) {
+            if (member instanceof CompetitiveSwimmer swimmer
+                    && swimmer.getName().toLowerCase().contains(searchLower)) {
+                matches.add(swimmer);
+            }
+        }
+        return matches;
+    }
+
 
 }
